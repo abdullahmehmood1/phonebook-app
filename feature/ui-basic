@@ -1,0 +1,40 @@
+//  Part A (GUI layout, add/search)
+JFrame frame = new JFrame("Phonebook App");
+frame.setSize(480, 650);
+frame.setLayout(null);
+frame.getContentPane().setBackground(new Color(245, 250, 255));
+
+
+JTextField nameField = new JTextField(); nameField.setBounds(130, 20, 280, 28);
+JTextField phoneField = new JTextField(); phoneField.setBounds(130, 60, 280, 28);
+JTextField emailField = new JTextField(); emailField.setBounds(130, 100, 280, 28);
+
+
+JButton addBtn = createButton("Add", 30, 150);
+JButton searchBtn = createButton("Search", 140, 150);
+
+
+addBtn.addActionListener(e -> {
+  String name = nameField.getText().trim(),
+         phone = phoneField.getText().trim(),
+         email = emailField.getText().trim();
+
+if (name.isEmpty()||phone.isEmpty()||email.isEmpty()) {
+    show(frame, "Fill all fields."); return; }
+  
+  contacts.add(new Contact(name, phone, email));
+
+show(frame, "Contact added."); clearFields(nameField, phoneField, emailField);
+}
+);
+
+searchBtn.addActionListener(e -> {
+  String name = nameField.getText().trim();
+  for (Contact c : contacts)
+    if (c.name.equalsIgnoreCase(name)) {
+      displayArea.setText("Found:\n" + c.display());
+      return;
+    }
+
+  displayArea.setText("Contact not found.");
+});
