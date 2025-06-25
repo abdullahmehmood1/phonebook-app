@@ -1,0 +1,31 @@
+// Validation for phone and email (part of Add button action)
+if (!phone.matches("\\d{10}")) {
+  show(frame, "Phone must be 10 digits."); return;
+}
+if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+  show(frame, "Invalid email."); return;
+}
+
+// Delete button
+JButton deleteBtn = createButton("Delete", 250, 150);
+deleteBtn.addActionListener(e -> {
+  String name = nameField.getText().trim();
+  for (int i = 0; i < contacts.size(); i++) {
+    if (contacts.get(i).name.equalsIgnoreCase(name)) {
+      contacts.remove(i);
+      show(frame, "Contact deleted.");
+      displayArea.setText("");
+      return;
+    }
+  }
+  show(frame, "Contact not found.");
+});
+
+// Show All button
+JButton showAllBtn = createButton("Show All", 30, 200, 380, 30);
+showAllBtn.addActionListener(e -> {
+  StringBuilder sb = new StringBuilder();
+  for (Contact c : contacts)
+    sb.append(c.display()).append("\n");
+  displayArea.setText(sb.length() > 0 ? sb.toString() : "No contacts found.");
+});
